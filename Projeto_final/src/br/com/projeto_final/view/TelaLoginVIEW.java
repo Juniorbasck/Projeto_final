@@ -4,6 +4,9 @@
  */
 package br.com.projeto_final.view;
 
+import br.com.projeto_final.ctr.UsuarioCTR;
+import br.com.projeto_final.dto.UsuarioDTO;
+import java.sql.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,11 +15,48 @@ import javax.swing.JOptionPane;
  */
 public class TelaLoginVIEW extends javax.swing.JFrame {
 
+    UsuarioDTO usuarioDTO = new UsuarioDTO(null, null);
+    UsuarioDTO usuarioRet = new UsuarioDTO(null, null);
+    UsuarioCTR usuarioCTR = new UsuarioCTR();
+
+    ResultSet rs;
+
     /**
      * Creates new form TelaLoginVIEW
      */
     public TelaLoginVIEW() {
         initComponents();
+    }
+
+    public void abrePrincipalVIEW() {
+        PrincipalVIEW principal = new PrincipalVIEW();
+        principal.setVisible(true);
+        dispose();
+        JOptionPane.showMessageDialog(null, "Seja bem vindo");
+    }
+
+    public void logar() {
+        try {
+            usuarioDTO.setUsuario(login_user.getText());
+            usuarioDTO.setSenha(senha_user.getText());
+            rs = usuarioCTR.autenticacaoUser2(usuarioDTO);
+            
+                if (rs.next()) {
+
+                    usuarioRet.setUsuario(rs.getString("usuario"));
+                    usuarioRet.setSenha(rs.getString("senha"));
+
+                    System.out.println(usuarioRet.getUsuario());
+                    JOptionPane.showMessageDialog(null, "Acesso permitido!");
+                    abrePrincipalVIEW();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Senha ou usuario incorreto!");
+                }
+        } catch (SQLException ex) {
+            JOptionPane.showConfirmDialog(null, "deu errado");
+        }
+
     }
 
     /**
@@ -31,8 +71,8 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        usuario = new javax.swing.JTextField();
-        senha = new javax.swing.JPasswordField();
+        login_user = new javax.swing.JTextField();
+        senha_user = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         btn_login = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
@@ -44,9 +84,9 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
-        usuario.addActionListener(new java.awt.event.ActionListener() {
+        login_user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuarioActionPerformed(evt);
+                login_userActionPerformed(evt);
             }
         });
 
@@ -60,11 +100,11 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usuario))
+                        .addComponent(login_user))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(senha_user, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -73,11 +113,11 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(login_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(senha_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22))
         );
 
@@ -100,11 +140,11 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(btn_login)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(btn_cancelar)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_login)
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,9 +166,9 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(30, 30, 30)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,16 +177,16 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
+    private void login_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_userActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usuarioActionPerformed
+    }//GEN-LAST:event_login_userActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
@@ -154,18 +194,8 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        // TODO add your handling code here:
-        if(usuario.getText().equalsIgnoreCase("admin") && senha.getText().equalsIgnoreCase("123")){
-            JOptionPane.showMessageDialog(null, "Acesso Permitido!");
-            
-            PrincipalVIEW principal = new PrincipalVIEW();
-            principal.setVisible(true);
-            dispose();
-            JOptionPane.showMessageDialog(null, "Seja bem vindo");
-            
-        }else {
-            JOptionPane.showMessageDialog(null, "Acesso negado!");
-        }
+
+        logar();
     }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
@@ -210,7 +240,7 @@ public class TelaLoginVIEW extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField senha;
-    private javax.swing.JTextField usuario;
+    private javax.swing.JTextField login_user;
+    private javax.swing.JPasswordField senha_user;
     // End of variables declaration//GEN-END:variables
 }

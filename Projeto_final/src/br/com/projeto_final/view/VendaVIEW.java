@@ -200,7 +200,7 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
     }
     
     private boolean verificaPreenchimento() {
-        if(jtl_consultar_cli.getSelectedRow() <= 0){
+        if(jtl_consultar_cli.getSelectedRowCount() <= 0){
             JOptionPane.showMessageDialog(null, "Deve ser selecionado um Cliente");
             jtl_consultar_cli.requestFocus();
             return false;
@@ -289,8 +289,13 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
         jLabel3.setText("Total Venda:");
 
-        TotalVenda.setFont(new java.awt.Font("Ubuntu", 0, 48)); // NOI18N
+        TotalVenda.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         TotalVenda.setText("0.00");
+        TotalVenda.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                TotalVendaPropertyChange(evt);
+            }
+        });
 
         btnPesquisarCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/projeto_final/view/imagens/procurar.png"))); // NOI18N
         btnPesquisarCli.addActionListener(new java.awt.event.ActionListener() {
@@ -308,8 +313,8 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(TotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -330,7 +335,7 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
                         .addComponent(pesquisa_nome_cli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TotalVenda))
@@ -355,11 +360,6 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
                 "ID", "Nome", "Valor"
             }
         ));
-        jtl_consultar_pro.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtl_consultar_proKeyPressed(evt);
-            }
-        });
         jScrollPane1.setViewportView(jtl_consultar_pro);
 
         btnProAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/projeto_final/view/imagens/seta-para-baixo.png"))); // NOI18N
@@ -384,6 +384,11 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
                 "ID", "Nome", "Valor", "QTD"
             }
         ));
+        jtl_consultar_pro_selecionado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtl_consultar_pro_selecionadoKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtl_consultar_pro_selecionado);
 
         btnPesquisarPro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/projeto_final/view/imagens/procurar.png"))); // NOI18N
@@ -585,12 +590,16 @@ public class VendaVIEW extends javax.swing.JInternalFrame {
         removeProdutoSelecionado(jtl_consultar_pro_selecionado.getSelectedRow());
     }//GEN-LAST:event_btnProRemActionPerformed
 
-    private void jtl_consultar_proKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtl_consultar_proKeyPressed
+    private void TotalVendaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_TotalVendaPropertyChange
         // TODO add your handling code here:
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+    }//GEN-LAST:event_TotalVendaPropertyChange
+
+    private void jtl_consultar_pro_selecionadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtl_consultar_pro_selecionadoKeyPressed
+        // TODO add your handling code here:
+         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             calculaTotalVenda();
         }
-    }//GEN-LAST:event_jtl_consultar_proKeyPressed
+    }//GEN-LAST:event_jtl_consultar_pro_selecionadoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

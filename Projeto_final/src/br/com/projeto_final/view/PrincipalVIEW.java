@@ -6,19 +6,21 @@
  */
 package br.com.projeto_final.view;
 
+import br.com.projeto_final.ctr.BackupCTR;
+import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
+
 
 /**
  *
  * @author Aluno
  */
 public class PrincipalVIEW extends javax.swing.JFrame {
+    
+    BackupCTR backupCTR = new BackupCTR();
 
     /**
      * Creates new form PrincipalVIEW
@@ -67,6 +69,20 @@ public class PrincipalVIEW extends javax.swing.JFrame {
         vendaVIEW.setPosicao();
     }
     
+    private void abreRelatorioVIEW() {
+        RelatorioVIEW relatorioVIEW = new RelatorioVIEW();
+        this.desktopPane.add(relatorioVIEW);
+        relatorioVIEW.setVisible(true);
+        relatorioVIEW.setPosicao();
+    }
+    
+    private void abreCadastarUsuarioVIEW() {
+        CadastrarUsuarioVIEW cadastarusuarioVIEW = new CadastrarUsuarioVIEW();
+        this.desktopPane.add(cadastarusuarioVIEW);
+        cadastarusuarioVIEW.setVisible(true);
+        cadastarusuarioVIEW.setPosicao();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,15 +100,26 @@ public class PrincipalVIEW extends javax.swing.JFrame {
                 graphics.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        menuBar = new javax.swing.JMenuBar();
+        menuBarRealizar = new javax.swing.JMenuBar();
         menuCadastro = new javax.swing.JMenu();
         itemMenuFornecedor = new javax.swing.JMenuItem();
         itemMenuProduto = new javax.swing.JMenuItem();
         itemClienteMenu = new javax.swing.JMenuItem();
         itemMenuVenda = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        menuItemRealizar = new javax.swing.JMenuItem();
+        munuItemRestaurar = new javax.swing.JMenuItem();
+        menuCadastarUsuario = new javax.swing.JMenu();
         menuSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        menuBarRealizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuBarRealizarMouseClicked(evt);
+            }
+        });
 
         menuCadastro.setMnemonic('f');
         menuCadastro.setText("Cadastro");
@@ -123,7 +150,7 @@ public class PrincipalVIEW extends javax.swing.JFrame {
         });
         menuCadastro.add(itemClienteMenu);
 
-        menuBar.add(menuCadastro);
+        menuBarRealizar.add(menuCadastro);
 
         itemMenuVenda.setText("Venda");
         itemMenuVenda.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,7 +163,43 @@ public class PrincipalVIEW extends javax.swing.JFrame {
                 itemMenuVendaActionPerformed(evt);
             }
         });
-        menuBar.add(itemMenuVenda);
+        menuBarRealizar.add(itemMenuVenda);
+
+        jMenu1.setText("Relatorio");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        menuBarRealizar.add(jMenu1);
+
+        jMenu2.setText("Bakup");
+
+        menuItemRealizar.setText("Realizar");
+        menuItemRealizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemRealizarActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuItemRealizar);
+
+        munuItemRestaurar.setText("Restaurar");
+        munuItemRestaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                munuItemRestaurarActionPerformed(evt);
+            }
+        });
+        jMenu2.add(munuItemRestaurar);
+
+        menuBarRealizar.add(jMenu2);
+
+        menuCadastarUsuario.setText("Cadastrar Usuário");
+        menuCadastarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCadastarUsuarioMouseClicked(evt);
+            }
+        });
+        menuBarRealizar.add(menuCadastarUsuario);
 
         menuSair.setMnemonic('h');
         menuSair.setText("Sair");
@@ -145,21 +208,9 @@ public class PrincipalVIEW extends javax.swing.JFrame {
                 menuSairMouseClicked(evt);
             }
         });
-        menuBar.add(menuSair);
+        menuBarRealizar.add(menuSair);
 
-        setJMenuBar(menuBar);
-        
-        JMenu mnBackup = new JMenu("Backup");
-        menuBar.add(mnBackup);
-        
-        JMenuItem realizaBack = new JMenuItem("Realizar Backup");
-        mnBackup.add(realizaBack);
-        
-        JMenuItem restauraBack = new JMenuItem("Restaurar Backup");
-        mnBackup.add(restauraBack);
-        
-        JMenuBar menuBar_1 = new JMenuBar();
-        mnBackup.add(menuBar_1);
+        setJMenuBar(menuBarRealizar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,7 +220,7 @@ public class PrincipalVIEW extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
         );
 
         pack();
@@ -199,6 +250,30 @@ public class PrincipalVIEW extends javax.swing.JFrame {
         // TODO add your handling code here:
         abreVendaVIEW();
     }//GEN-LAST:event_itemMenuVendaMouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+       // TODO add your handling code here:
+       abreRelatorioVIEW();
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void munuItemRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_munuItemRestaurarActionPerformed
+        // TODO add your handling code here:
+        this.backupCTR.confirmaRestaurarBackup();
+    }//GEN-LAST:event_munuItemRestaurarActionPerformed
+
+    private void menuBarRealizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuBarRealizarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuBarRealizarMouseClicked
+
+    private void menuItemRealizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRealizarActionPerformed
+        // TODO add your handling code here:
+        this.backupCTR.confirmaBackup();
+    }//GEN-LAST:event_menuItemRealizarActionPerformed
+
+    private void menuCadastarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCadastarUsuarioMouseClicked
+        // TODO add your handling code here:
+        abreCadastarUsuarioVIEW();
+    }//GEN-LAST:event_menuCadastarUsuarioMouseClicked
 
     /**
      * @param args the command line arguments
@@ -244,7 +319,14 @@ public class PrincipalVIEW extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuFornecedor;
     private javax.swing.JMenuItem itemMenuProduto;
     private javax.swing.JMenu itemMenuVenda;
-    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar menuBarRealizar;
+    private javax.swing.JMenu menuCadastarUsuario;
     private javax.swing.JMenu menuCadastro;
+    private javax.swing.JMenuItem menuItemRealizar;
     private javax.swing.JMenu menuSair;
+    private javax.swing.JMenuItem munuItemRestaurar;
+    // End of variables declaration//GEN-END:variables
+
 }

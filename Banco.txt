@@ -11,7 +11,7 @@ CREATE TABLE produto(
 	id_prod serial,
 	nome_prod character varying(50),
 	desc_prod character varying(50),
-	cod_bar_prod character varying(13),
+	cod_bar_prod character varying(15),
 	p_custo_prod double precision,
 	p_venda_prod double precision,
 	id_for integer,
@@ -26,12 +26,12 @@ CREATE TABLE cliente(
 	numero integer,
 	bairro character varying(30),
 	cidade character varying(30),
-	estador character varying(2),
+	estado character varying(2),
 	cep character varying(9),
 	cpf character varying(14) unique,
-	rg character varyng(15),
+	rg character varying(15),
 	CONSTRAINT cliente_pkey PRIMARY KEY (id_cliente)
-)
+);
 CREATE TABLE venda (
 	id_vend serial,
 	dat_vend date,
@@ -50,4 +50,18 @@ CREATE TABLE produto_venda
 	qtd_prod integer,
 	CONSTRAINT produto_venda_id_prod_fkey FOREIGN KEY (id_prod) REFERENCES produto (id_prod),
 	CONSTRAINT produto_venda_id_vend_fkey FOREIGN KEY (id_vend) REFERENCES venda (id_vend)
-)
+);
+
+CREATE TABLE login(
+	id_login serial,
+	usuario character  varying (15) not null,
+	senha character  varying not null
+);
+
+
+--drop table login;
+
+INSERT INTO login (usuario, senha) values ('admin', 'admin');
+INSERT INTO login (usuario, senha) values ('user', '123');
+
+select * from login;
